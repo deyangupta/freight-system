@@ -12,8 +12,17 @@ CREATE TABLE freight_rates (
   id SERIAL PRIMARY KEY,
   origin TEXT,
   destination TEXT,
+  shipper TEXT,
+  agent TEXT,
+  pod TEXT,
+  gp20 TEXT,
+  gp40 TEXT,
   rate NUMERIC,
   carrier TEXT,
+  "type" TEXT,
+  remark1 TEXT,
+  remark2 TEXT,
+  remark3 TEXT,
   transit_time TEXT
 );
 
@@ -25,5 +34,5 @@ CREATE TABLE freight_rates (
 4. CREATE DATABASE newdb OWNER newuser;
 5. GRANT ALL PRIVILEGES ON DATABASE newdb TO newuser;
 6. \c fright
-7. GRANT ALL PRIVILEGES ON TABLE freight_rates TO your_user;
-8. GRANT USAGE, SELECT, UPDATE ON SEQUENCE freight_rates_id_seq TO your_user;
+7. GRANT ALL PRIVILEGES ON TABLE freight_rates TO deyan;
+8. GRANT USAGE, SELECT, UPDATE ON SEQUENCE freight_rates_id_seq TO deyan;
