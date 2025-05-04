@@ -14,6 +14,7 @@ interface UploadModalProps {
   handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleMappingChange: (srcCol: string, mappedVal: string) => void;
   handleSubmit: () => void;
+  resetMapping: () => void;
 }
 
 const UploadModal: React.FC<UploadModalProps> = ({
@@ -27,7 +28,8 @@ const UploadModal: React.FC<UploadModalProps> = ({
   fileInputRef,
   handleFileUpload,
   handleMappingChange,
-  handleSubmit
+  handleSubmit,
+  resetMapping
 }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
@@ -74,6 +76,7 @@ const UploadModal: React.FC<UploadModalProps> = ({
               columns={columns}
               mapping={mapping}
               data={sheetData}
+              resetMapping={resetMapping}
               standardColumn={STANDARD_COLUMNS}
               onMappingChange={handleMappingChange}
             />

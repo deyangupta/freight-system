@@ -6,14 +6,23 @@ interface ColumnMapperProps {
   mapping: Record<string, string>;
   data: any[]; // Assuming data is an array of objects
   onMappingChange: (source: string, target: string) => void;
+  resetMapping: () => void;
 }
 
-const ColumnMapper: React.FC<ColumnMapperProps> = ({ columns, mapping, data, standardColumn, onMappingChange }) => {
+const ColumnMapper: React.FC<ColumnMapperProps> = ({ columns, mapping, data, standardColumn, onMappingChange, resetMapping }) => {
   return (
     <div className="grid gap-4">
       {/* Table */}
       <div className="overflow-x-auto bg-white rounded shadow">
         <label className="text-sm font-medium text-blue-400">Please map fields with our standard field</label>
+        <div className="flex justify-end mb-4">
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            onClick={() => resetMapping()}
+          >
+            Reset
+          </button>
+        </div>
         <table className="min-w-full table-auto border-collapse">
           <thead>
             <tr className="bg-gray-100 text-sm text-left">

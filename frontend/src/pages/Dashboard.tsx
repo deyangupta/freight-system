@@ -32,6 +32,11 @@ const Dashboard: React.FC = () => {
     fetchShipments();
   }, []);
 
+  const resetMapping = () => {
+    setColumns(Object.keys(sheetData[0] || {}));
+    setMapping({});
+  }
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
     if (!uploadedFile) return;
@@ -127,6 +132,7 @@ const Dashboard: React.FC = () => {
           handleFileUpload={handleFileUpload}
           handleMappingChange={handleMappingChange}
           handleSubmit={handleSubmit}
+          resetMapping={resetMapping}
         />
       )}
     </div>
