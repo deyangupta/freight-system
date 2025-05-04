@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 import { STANDARD_COLUMNS } from '../constants';
 import Header from '../components/Header';
 import Table from '../components/Table';
-import ColumnMapper from '../components/ColumnMapper'; // ✅ Imported new modal component
+import ColumnMapper from '../components/ColumnMapper';
 
 const Dashboard: React.FC = () => {
   const [user] = useState('John');
@@ -73,7 +74,7 @@ const Dashboard: React.FC = () => {
 
   const handleSubmit = async () => {
     if (Object.keys(mapping).length !== columns.length) {
-      alert('Please complete the mapping for all columns before submitting.');
+      toast.error('Please complete the mapping for all columns before submitting.');
       return;
     }
     if (!file) return;
@@ -86,11 +87,11 @@ const Dashboard: React.FC = () => {
       const { shipments } = response.data;
       setData(shipments);
       setFile(null);
-      alert('Upload successful!');
+      toast.success('Upload successful!');
       setShowModal(false);
     } catch (err) {
       console.error(err);
-      alert('Upload failed!');
+      toast.error('Upload failed!');
     }
   };
 
@@ -208,6 +209,7 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
       )}
+      <Toaster />
     </div>
   );
 };
