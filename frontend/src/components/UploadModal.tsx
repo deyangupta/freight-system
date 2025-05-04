@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { STANDARD_COLUMNS } from '../constants';
 import ColumnMapper from './ColumnMapper';
 
-interface FileUploadModalProps {
+interface UploadModalProps {
   file: File | null;
   fileUploaded: boolean;
   columns: string[];
@@ -16,7 +16,7 @@ interface FileUploadModalProps {
   handleSubmit: () => void;
 }
 
-const FileUploadModal: React.FC<FileUploadModalProps> = ({
+const UploadModal: React.FC<UploadModalProps> = ({
   file,
   fileUploaded,
   columns,
@@ -103,4 +103,4 @@ const FileUploadModal: React.FC<FileUploadModalProps> = ({
   );
 };
 
-export default FileUploadModal;
+export default UploadModal;

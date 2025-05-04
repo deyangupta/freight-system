@@ -4,7 +4,7 @@ import axios from 'axios';
 import { STANDARD_COLUMNS } from '../constants';
 import Header from '../components/Header';
 import Table from '../components/Table';
-import FileUploadModal from '../components/UploadModal'; // ✅ Imported new modal component
+import UploadModal from '../components/UploadModal'; // ✅ Imported new modal component
 
 const Dashboard: React.FC = () => {
   const [user] = useState('John');
@@ -21,7 +21,7 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchShipments = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/api/get-shipments');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/get-shipments`);
         const { shipments } = response.data;
         setData(shipments);
       } catch (error) {
@@ -57,17 +57,27 @@ const Dashboard: React.FC = () => {
       setColumns((prev) => prev.filter((col) => col !== srcCol));
       return;
     }
-    setMapping((prev) => ({ ...prev, [srcCol]: mappedVal }));
+    setMapping((prev) => {
+      // Remove any existing mapping for the selected value
+      const updatedMapping = Object.fromEntries(
+      Object.entries(prev).filter(([_, value]) => value !== mappedVal)
+      );
+      return { ...updatedMapping, [srcCol]: mappedVal };
+    });
   };
 
   const handleSubmit = async () => {
+    if (Object.keys(mapping).length !== columns.length) {
+      alert('Please complete the mapping for all columns before submitting.');
+      return;
+    }
     if (!file) return;
     const formData = new FormData();
     formData.append('file', file);
     formData.append('mapping', JSON.stringify(mapping));
 
     try {
-      const response = await axios.post('http://localhost:5001/api/files/upload', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/files/upload`, formData);
       const { shipments } = response.data;
       setData(shipments);
       setFile(null);
@@ -105,7 +115,7 @@ const Dashboard: React.FC = () => {
       <Table columns={STANDARD_COLUMNS} data={data} />
 
       {showModal && (
-        <FileUploadModal
+        <UploadModal
           file={file}
           fileUploaded={fileUploaded}
           columns={columns}
