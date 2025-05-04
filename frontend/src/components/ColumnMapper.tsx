@@ -13,30 +13,30 @@ const ColumnMapper: React.FC<ColumnMapperProps> = ({ columns, mapping, data, sta
     <div className="grid gap-4">
       {/* Table */}
       <div className="overflow-x-auto bg-white rounded shadow">
+        <label className="text-sm font-medium text-blue-400">Please map fields with our standard field</label>
         <table className="min-w-full table-auto border-collapse">
           <thead>
             <tr className="bg-gray-100 text-sm text-left">
               {columns.map((header) => (
                 <th key={header} className="px-4 py-3 border">
                   <p>{header}</p>
-                  <div className="flex items-center gap-4">
-                    {/* <span className="w-1/3">{header}</span> */}
+                    <div className="flex flex-col gap-2">
                     <select
-                      className="border rounded px-2 py-1"
+                      className="border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       value={mapping[header] || ''}
                       onChange={(e) => onMappingChange(header, e.target.value)}
                     >
-                      <option value="">-- Select Field --</option>
+                      <option value="" disabled>
+                      Map With
+                      </option>
                       {standardColumn.map((field) => (
-                        <option key={field.name} value={field.name}>
-                          {field.label}
-                        </option>
+                      <option key={field.name} value={field.name}>
+                        {field.label}
+                      </option>
                       ))}
-                      <option value={'Ignore'}>
-                          {'Ignore'}
-                        </option>
+                      <option value="Ignore">Ignore</option>
                     </select>
-                  </div>
+                    </div>
                 </th>
               ))}
             </tr>
@@ -52,7 +52,7 @@ const ColumnMapper: React.FC<ColumnMapperProps> = ({ columns, mapping, data, sta
               data.map((row, i) => (
                 <tr key={i} className="border-t">
                   {columns.map((col, idx) => (
-                    <td key={idx}>
+                    <td className='text-center' key={idx}>
                       {row[col] || ''}
                     </td>
                   ))}

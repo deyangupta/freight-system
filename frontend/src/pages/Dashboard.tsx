@@ -71,7 +71,7 @@ const Dashboard: React.FC = () => {
 
   const handleMappingChange = (srcCol: string, mappedVal: string) => {
     if (mappedVal === 'Ignore') {
-      setStandardColumn((prev) => prev.filter((col) => col.name !== srcCol));
+      setColumns((prev) => prev.filter((col) => col !== srcCol));
       return;
     }
     setMapping((prev) => ({ ...prev, [srcCol]: mappedVal }));
