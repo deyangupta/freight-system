@@ -1,4 +1,4 @@
-
+import React from 'react';
 const Header = ({ user, showDropdown, setShowDropdown }: {
   user: string;
   showDropdown: boolean;
@@ -30,4 +30,4 @@ const Header = ({ user, showDropdown, setShowDropdown }: {
   </div>
 );
 
-export default Header;
+export default React.memo(Header);
