@@ -2,27 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import * as XLSX from 'xlsx';
 import axios from 'axios';
 import ColumnMapper from '../components/ColumnMapper';
-const standardColumns = [
-  {name: 'id', label: 'ShipmentID'},
-  {name: 'origin', label: 'OriginCountry'},
-  {name: 'destination', label: 'DestinationCountry'},
-  {name: 'shipper', label: 'ShipperName'},
-  {name: 'agent', label: 'AgentName'},
-  {name: 'pod', label: 'Proof of Delivery'},
-  {name: 'gp20', label: "20'GP"},
-  {name: 'gp40', label: "40'GP"},
-  {name: 'rate', label: 'Rate'},
-  {name: 'carrier', label: 'Carrier'},
-  {name: 'type', label: 'Type'},
-  {name: 'remark1', label: 'Remark1'},
-  {name: 'remark2', label: 'Remark2'},
-  {name: 'remark3', label: 'Remark3'},
-  {name: 'transit_time', label: 'Date-time'}
-]
+import { STANDARD_COLUMNS } from '../constants';
+import Header from '../components/Header';
+import Table from '../components/Table';
 
 const Dashboard: React.FC = () => {
   const [user] = useState('John');
-  const [standardColumn, setStandardColumn] = useState(standardColumns)
   const [showDropdown, setShowDropdown] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [fileUploaded, setFileUploaded] = useState<boolean>(false);
@@ -100,38 +85,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#d5d4c8] text-black p-6 relative">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl font-semibold">Hello, {user}!</h1>
-
-        {/* Dropdown */}
-        <div className="relative inline-block text-left">
-          <button
-            onClick={() => setShowDropdown(!showDropdown)}
-            className="inline-flex justify-center items-center border border-gray-400 rounded px-4 py-2 bg-white text-sm font-medium hover:bg-gray-100"
-          >
-            {user}
-            <svg
-              className="w-4 h-4 ml-2"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-          {showDropdown && (
-            <div className="absolute right-0 z-10 mt-2 w-32 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg">
-              <button
-                onClick={() => setShowDropdown(false)}
-                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-              >
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+      <Header user={user} showDropdown={showDropdown} setShowDropdown={setShowDropdown}/>
 
       {/* Title + Import File Button */}
       <div className="flex justify-between items-center mb-4">
@@ -154,36 +108,10 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto bg-white rounded shadow">
-        <table className="min-w-full table-auto border-collapse">
-          <thead>
-            <tr className="bg-gray-100 text-sm text-left">
-              {standardColumns.map((header) => (
-                <th key={header.name} className="px-4 py-3 border">{header.label}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.length === 0 ? (
-              <tr>
-                <td colSpan={9} className="text-center py-6 text-gray-500">
-                  No data has been added!
-                </td>
-              </tr>
-            ) : (
-              data && data.map((row, i) => (
-                <tr key={i} className="border-t">
-                  {standardColumns.map((col) => (
-                    <td>
-                      {row[col.name] || ''}
-                    </td>
-                  ))}
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      <Table
+        columns={STANDARD_COLUMNS}
+        data={data} 
+      />
 
       {/* Modal */}
       {showModal && (
@@ -228,7 +156,7 @@ const Dashboard: React.FC = () => {
                   columns={columns}
                   mapping={mapping}
                   data= {sheetData}
-                  standardColumn={standardColumn}
+                  standardColumn={STANDARD_COLUMNS}
                   onMappingChange={handleMappingChange}
                 />
               )}
