@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo, useCallback } from 'react';
 import * as XLSX from 'xlsx';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
@@ -19,16 +19,18 @@ const Dashboard: React.FC = () => {
   const [mapping, setMapping] = useState<Record<string, string>>({});
   const [sheetData, setSheetData] = useState<any[]>([]);
   const { data, loading, error, refetchShipments } = useShipments();
-  if (!loading && error) {
-    toast.error(error);
-  }
+  useMemo(() => {
+    if (!loading && error) {
+      toast.error(error);
+    }
+  }, [loading, error]);
 
-  const resetMapping = () => {
+  const resetMapping = useCallback(() => {
     setColumns(Object.keys(sheetData[0] || {}));
     setMapping({});
-  }
+  }, [sheetData]);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
     if (!uploadedFile) return;
 
@@ -46,7 +48,7 @@ const Dashboard: React.FC = () => {
       setColumns(Object.keys(json[0] || {}));
     };
     reader.readAsArrayBuffer(uploadedFile);
-  };
+  }, []);
 
   const handleMappingChange = (srcCol: string, mappedVal: string) => {
     if (mappedVal === 'Ignore') {
@@ -203,4 +205,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default React.memo(Dashboard);
