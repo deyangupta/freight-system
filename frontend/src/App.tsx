@@ -55,7 +55,7 @@ const App: React.FC = () => {
 
       {columns.length > 0 && (
         <>
-          <ColumnMapper columns={columns} mapping={mapping} standerdColumn={[]} data={sheetData} onMappingChange={handleMappingChange} />
+          <ColumnMapper columns={columns} mapping={mapping} standardColumn={[]} data={sheetData} onMappingChange={handleMappingChange} />
           <button onClick={handleSubmit} className="mt-4 bg-blue-600 px-4 py-2 rounded">
             Submit
           </button>

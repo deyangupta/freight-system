@@ -20,12 +20,11 @@ const standardColumns = [
   {name: 'transit_time', label: 'Date-time'}
 ]
 
-const QuotesPage: React.FC = () => {
+const Dashboard: React.FC = () => {
   const [user] = useState('John');
-  const [standerdColumn, setStanderdColumn] = useState(standardColumns)
+  const [standardColumn, setStandardColumn] = useState(standardColumns)
   const [showDropdown, setShowDropdown] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [fileUploaded, setFileUploaded] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -72,7 +71,7 @@ const QuotesPage: React.FC = () => {
 
   const handleMappingChange = (srcCol: string, mappedVal: string) => {
     if (mappedVal === 'Ignore') {
-      setStanderdColumn((prev) => prev.filter((col) => col.name !== srcCol));
+      setStandardColumn((prev) => prev.filter((col) => col.name !== srcCol));
       return;
     }
     setMapping((prev) => ({ ...prev, [srcCol]: mappedVal }));
@@ -89,6 +88,7 @@ const QuotesPage: React.FC = () => {
       console.log('Response:', response.data);
       const { shipments } = response.data;
       setData(shipments);
+      setFile(null)
       alert('Upload successful!');
       setShowModal(false)
     } catch (err) {
@@ -187,8 +187,8 @@ const QuotesPage: React.FC = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-40">
-          <div className={`bg-white rounded-lg p-6 w-full ${fileUploaded?'':'max-w-lg'}`}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+          <div className={`bg-white rounded-lg p-6 w-full ${fileUploaded ? '' : 'max-w-lg'} max-h-[90vh] overflow-y-auto`}>
             <h3 className="text-lg font-semibold mb-4">Upload Necessary documents</h3>
 
             { !fileUploaded && <div
@@ -222,34 +222,36 @@ const QuotesPage: React.FC = () => {
               </div>
             </div>
             {/* Column Mapper */}
-            {fileUploaded && (
-              <ColumnMapper
-                columns={columns}
-                mapping={mapping}
-                data= {sheetData}
-                standerdColumn={standerdColumn}
-                onMappingChange={handleMappingChange}
-              />
-            )}
+            <div className='mb-10'>
+              {fileUploaded && (
+                <ColumnMapper
+                  columns={columns}
+                  mapping={mapping}
+                  data= {sheetData}
+                  standardColumn={standardColumn}
+                  onMappingChange={handleMappingChange}
+                />
+              )}
+            </div>
 
             {/* Submit Button */}
 
             {/* Buttons */}
-            <div className="flex justify-end mt-6 space-x-2">
+            <div className="sticky bottom-0 left-0 right-0 bg-white flex justify-end mt-6 space-x-2 p-4 shadow-md">
               <button
-                onClick={() => {
-                  setShowModal(false);
-                  setUploadedFile(null);
-                }}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-sm rounded"
+              onClick={() => {
+                setShowModal(false);
+                setFile(null);
+              }}
+              className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-sm rounded"
               >
-                Cancel
+              Cancel
               </button>
               <button
-                className="px-4 py-2 bg-black text-white hover:bg-gray-800 text-sm rounded"
-                onClick={handleSubmit}
+              className="px-4 py-2 bg-black text-white hover:bg-gray-800 text-sm rounded"
+              onClick={handleSubmit}
               >
-                Process Shipments
+              Process Shipments
               </button>
             </div>
           </div>
@@ -259,4 +261,4 @@ const QuotesPage: React.FC = () => {
   );
 };
 
-export default QuotesPage;
+export default Dashboard;

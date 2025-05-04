@@ -2,13 +2,13 @@ import React from 'react';
 
 interface ColumnMapperProps {
   columns: string[];
-  standerdColumn: any[];
+  standardColumn: any[];
   mapping: Record<string, string>;
   data: any[]; // Assuming data is an array of objects
   onMappingChange: (source: string, target: string) => void;
 }
 
-const ColumnMapper: React.FC<ColumnMapperProps> = ({ columns, mapping, data, standerdColumn, onMappingChange }) => {
+const ColumnMapper: React.FC<ColumnMapperProps> = ({ columns, mapping, data, standardColumn, onMappingChange }) => {
   return (
     <div className="grid gap-4">
       {/* Table */}
@@ -27,7 +27,7 @@ const ColumnMapper: React.FC<ColumnMapperProps> = ({ columns, mapping, data, sta
                       onChange={(e) => onMappingChange(header, e.target.value)}
                     >
                       <option value="">-- Select Field --</option>
-                      {standerdColumn.map((field) => (
+                      {standardColumn.map((field) => (
                         <option key={field.name} value={field.name}>
                           {field.label}
                         </option>
