@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Table = ({ columns, data }: { columns: { name: string, label: string }[], data: any[] }) => (
+const Table = React.memo(({ columns, data }: { columns: { name: string, label: string }[], data: any[] }) => (
   <div className="overflow-x-auto bg-white rounded shadow">
     <table className="min-w-full table-auto border-collapse">
       <thead>
@@ -29,6 +29,6 @@ const Table = ({ columns, data }: { columns: { name: string, label: string }[], 
       </tbody>
     </table>
   </div>
-);
+));
 
 export default Table;

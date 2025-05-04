@@ -12,10 +12,10 @@ exports.handleFileUpload = async (req, res) => {
     const sheetName = workbook.SheetNames[0];
     const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
-    const row = await mapAndInsertData(data, mapping);
+    await mapAndInsertData(data, mapping);
 
     fs.unlinkSync(filePath);
-    res.status(200).json({ message: 'File processed and data inserted successfully.', shipments : row });
+    res.status(200).json({ message: 'File processed and data inserted successfully.' });
   } catch (error) {
     console.error('File processing error:', error);
     res.status(500).json({ error: 'Failed to process file' });

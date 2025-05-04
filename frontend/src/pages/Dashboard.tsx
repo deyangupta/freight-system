@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import * as XLSX from 'xlsx';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
@@ -6,6 +6,7 @@ import { STANDARD_COLUMNS } from '../constants';
 import Header from '../components/Header';
 import Table from '../components/Table';
 import ColumnMapper from '../components/ColumnMapper';
+import { useShipments } from '../hooks/useShipments';
 
 const Dashboard: React.FC = () => {
   const [user] = useState('John');
@@ -17,21 +18,10 @@ const Dashboard: React.FC = () => {
   const [columns, setColumns] = useState<string[]>([]);
   const [mapping, setMapping] = useState<Record<string, string>>({});
   const [sheetData, setSheetData] = useState<any[]>([]);
-  const [data, setData] = useState<any[]>([]);
-
-  useEffect(() => {
-    const fetchShipments = async () => {
-      try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/get-shipments`);
-        const { shipments } = response.data;
-        setData(shipments);
-      } catch (error) {
-        console.error('Error fetching shipments:', error);
-      }
-    };
-
-    fetchShipments();
-  }, []);
+  const { data, loading, error, refetchShipments } = useShipments();
+  if (!loading && error) {
+    toast.error(error);
+  }
 
   const resetMapping = () => {
     setColumns(Object.keys(sheetData[0] || {}));
@@ -83,9 +73,8 @@ const Dashboard: React.FC = () => {
     formData.append('mapping', JSON.stringify(mapping));
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/files/upload`, formData);
-      const { shipments } = response.data;
-      setData(shipments);
+      await axios.post(`${import.meta.env.VITE_API_URL}/files/upload`, formData);
+      refetchShipments();
       setFile(null);
       toast.success('Upload successful!');
       setShowModal(false);

@@ -34,8 +34,6 @@ exports.mapAndInsertData = async (data, mapping) => {
     }
 
     await client.query('COMMIT');
-    const test = await client.query('SELECT * FROM freight_rates');
-    return test.rows;
   } catch (err) {
     await client.query('ROLLBACK');
     throw err;
