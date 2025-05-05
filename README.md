@@ -117,3 +117,19 @@ GET /api/get-shipments
 Response: [{ id, origin, destination, rate, ... }]
 ```
 
+## Screenshots
+
+### Dashboard
+<img width="1424" alt="image" src="https://github.com/user-attachments/assets/f9be1f2a-6def-4fcd-824f-8b8cf9cc6f7d" />
+
+### File upload modal
+<img width="518" alt="image" src="https://github.com/user-attachments/assets/d406bfde-aecf-4a19-b23d-cdf6867f3095" />
+
+### Mapping screen
+<img width="1426" alt="image" src="https://github.com/user-attachments/assets/958f6641-0ffb-4227-8b82-ffe9045db612" />
+
+### Dashboard with data
+
+
+
+
