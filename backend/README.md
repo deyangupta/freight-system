@@ -25,14 +25,16 @@ CREATE TABLE freight_rates (
   remark3 TEXT,
   transit_time TEXT
 );
+```
 
 ## access db
-
+```sql
 1. brew services start postgresql
 2. psql postgres
 3. CREATE USER newuser WITH PASSWORD 'your_password';
 4. CREATE DATABASE newdb OWNER newuser;
 5. GRANT ALL PRIVILEGES ON DATABASE newdb TO newuser;
 6. \c fright
-7. GRANT ALL PRIVILEGES ON TABLE freight_rates TO deyan;
-8. GRANT USAGE, SELECT, UPDATE ON SEQUENCE freight_rates_id_seq TO deyan;
+7. GRANT ALL PRIVILEGES ON TABLE freight_rates TO newuser;
+8. GRANT USAGE, SELECT, UPDATE ON SEQUENCE freight_rates_id_seq TO newuser;
+```
