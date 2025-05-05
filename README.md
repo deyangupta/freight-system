@@ -130,6 +130,13 @@ Response: [{ id, origin, destination, rate, ... }]
 
 ### Dashboard with data
 
+<img width="1425" alt="image" src="https://github.com/user-attachments/assets/63971d80-e189-4d6b-b960-c4403d5445a2" />
+
+### video sample
+
+
+https://github.com/user-attachments/assets/e73d10b6-0d05-4f27-b1f4-78a66e856615
+
 
 
 
