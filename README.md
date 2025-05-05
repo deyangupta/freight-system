@@ -117,6 +117,94 @@ GET /api/get-shipments
 Response: [{ id, origin, destination, rate, ... }]
 ```
 
+# 📄 Documentation: Added extra Fields in Freight Rate Import System
+
+## 🧩 Overview
+
+To accommodate diverse formats and annotations found in agent-provided freight rate sheets, we have introduced **three flexible remark fields** in the PostgreSQL schema and column-mapping interface: `remark1`, `remark2`, and `remark3`.
+
+These fields are designed to capture important non-standard information that doesn't fit into the predefined schema but is essential for operational accuracy and traceability.
+
+---
+
+## 🎯 Rationale for Adding Remark Fields
+
+Many uploaded freight rate sheets include **miscellaneous notes or comments**, such as:
+
+- Special instructions from the agent
+- Temporary surcharges or discounts
+- Clarifications about rate validity or conditions
+- Internal processing notes or remarks
+
+To ensure this data is **not lost** during import or column mapping, these generic fields have been introduced.
+
+---
+
+## 📝 Field Descriptions
+
+| Field Name | Data Type | Purpose / Usage |
+|------------|-----------|------------------|
+| `remark1`  | `TEXT`    | Stores the first miscellaneous note or comment from the source file |
+| `remark2`  | `TEXT`    | Stores the second miscellaneous note or comment |
+| `remark3`  | `TEXT`    | Stores the third miscellaneous note or comment |
+
+---
+
+## 🔗 Mapping Logic
+
+- During the **column mapping** step, users can assign any **non-standard columns** (e.g., `notes`, `remarks`, `extra`) to `remark1`, `remark2`, or `remark3`.
+- If more than three remark-like fields exist in the uploaded file:
+  - Users are encouraged to **consolidate** or **prioritize** the most relevant information.
+- The mapping interface labels these fields as:
+  - **"Remark 1"**, **"Remark 2"**, and **"Remark 3"**
+  - Includes **tooltips/help text** to explain their purpose.
+
+---
+
+## ✅ Justification
+
+### Why are these fields necessary?
+
+- Real-world freight rate sheets include **contextual or ad-hoc notes** that cannot always be anticipated or standardized.
+- Ignoring this information could lead to:
+  - **Misinterpretation** of rate terms
+  - **Data loss** or **confusion**
+- These fields preserve **important metadata** for operations, audits, and analytics.
+
+---
+
+## 🔄 Extensibility
+
+If future data usage reveals a frequent need for more than 3 remark fields:
+
+- The schema can be extended to include more `remarkX` columns.
+- Alternatively, a single `remarks` field of type `JSONB` can be introduced for **unlimited and structured remarks**.
+
+This approach offers a balance between **flexibility** and **simplicity**, keeping the database queryable and report-friendly.
+
+---
+
+## 👨‍💼 User Guidance
+
+- Users are prompted in the UI to map any “Other”, “Note”, or “Remark” columns to the available remark fields.
+- Clear guidance is provided on:
+  - How to consolidate multiple remarks
+  - What types of content are suitable for these fields
+- Example tooltips:
+  - *“Use this field to store special instructions or notes from the agent.”*
+
+---
+
+## 📌 Summary
+
+The addition of `remark1`, `remark2`, and `remark3` ensures:
+
+- All non-standard but valuable data from agent sheets is captured.
+- Users have flexibility when mapping diverse file formats.
+- The system remains extensible for future data needs.
+
+This feature enhances the **reliability, completeness, and usefulness** of imported freight rate data.
+
 ## Screenshots
 
 ### Dashboard
@@ -136,6 +224,9 @@ Response: [{ id, origin, destination, rate, ... }]
 
 
 https://github.com/user-attachments/assets/e73d10b6-0d05-4f27-b1f4-78a66e856615
+
+
+---
 
 
 
